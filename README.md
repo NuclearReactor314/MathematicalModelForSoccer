@@ -8,3 +8,4 @@ This repository cntains a basic JavaScript implementation of a soccer ball's tra
 
 ## Reminder
 JUST A PRIMARY MODEL
+Using mathematical way to show the motion of soccer.
