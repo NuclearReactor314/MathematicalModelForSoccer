@@ -1,6 +1,6 @@
-# mathematical-model-for-soccer-
+# mathematical-model-for-soccer
 ## Overview
-This repository cntains a basic JavaScript implementation of a soccer ball's trajectory when kicked at a specific angle and initial velocity.
+This repository contains a basic JavaScript implementation of a soccer ball's trajectory when kicked at a specific angle and initial velocity.
 ## Feature
 - Simulates the motion of a soccer ball.
 - Considers the influence of gravity and air resistance.
