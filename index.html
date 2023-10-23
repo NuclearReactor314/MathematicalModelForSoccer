@@ -45,10 +45,10 @@
         <h2>Result</h2>
         <p id="result">Results will appear here.</p>
     </form>
-
+    
     <script>
-    document.getElementById('calculate-button').addEventListener('click', function() {
-        // Retrieve input data
+    `    document.getElementById('calculate-button').addEventListener('click', function() {
+            // Retrieve input data
         const ballVelocity = parseFloat(document.getElementById('ball-velocity').value);
         const playerVelocity = parseFloat(document.getElementById('player-velocity').value);
         const weather = document.getElementById('weather').value;
@@ -80,6 +80,6 @@
     function calculateHorizontalDistance(playerVelocity, time) {
         return playerVelocity * time;
     }
-</script>
+</script>  
 </body>
 </html>
