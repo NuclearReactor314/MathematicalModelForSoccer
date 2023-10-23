@@ -12,72 +12,59 @@
      <form id="soccer-motion-form">
         <h2>Enter Data</h2>
         
-        <!-- Ball Data -->
+ <!-- Ball Data -->
         <label for="ball-velocity">Ball Velocity (m/s):</label>
-        <input type="number" id="ball-velocity" step="0.01" required><br>
+        <input type="number" id="ball-velocity" step="1" required><br>
 
         <!-- Player Data -->
         <label for="player-velocity">Player Velocity (m/s):</label>
-        <input type="number" id="player-velocity" step="0.01" required><br>
+        <input type="number" id="player-velocity" step="1" required><br>
 
         <!-- Weather Data -->
         <label for="weather">Weather:</label>
         <select id="weather">
             <option value="Sunny">Sunny</option>
             <option value="Rainy">Rainy</option>
+            <option value="Cloudy">Cloudy</option>
+            <option value="End of the world'>End of the world</option>
         </select><br>
-
-         <!-- Calculate Button -->
+<!-- Calculate Button -->
     <button type="button" id="calculate-button">Calculate</button>
 
-            <!-- Result -->
+      <!-- Result -->
 <h2>Result</h2>
 <p id="result">Distance traveled by the ball: <span id="distance-result">Calculating...</span> meters</p>
 
-     <script>
-        document.getElementById('calculate-button').addEventListener('click', function() {
-            const ballVelocity = parseFloat(document.getElementById('ball-velocity').value);
-            const playerVelocity = parseFloat(document.getElementById('player-velocity').value);
-            const weather = document.getElementById('weather').value;
+    <script>
+        const ballVelocityInput = document.getElementById('ball-velocity');
+        const playerVelocityInput = document.getElementById('player-velocity');
+        const weatherSelect = document.getElementById('weather');
+        const resultElement = document.getElementById('result');
 
-            let airResistance;
-            let netVelocity;
-            let time;
-            let horizontalDistance;
+        // Function to calculate and update results
+        function calculateResults() {
+            const ballVelocity = parseFloat(ballVelocityInput.value);
+            const playerVelocity = parseFloat(playerVelocityInput.value);
+            const weather = weatherSelect.value;
 
-            if (weather === "Sunny") {
-                airResistance = calculateAirResistanceSunny(ballVelocity);
-                netVelocity = ballVelocity - airResistance;
-                time = calculateTimeToPlayer(playerVelocity, netVelocity);
-                horizontalDistance = calculateHorizontalDistance(playerVelocity, time);
-            } else if (weather === "Rainy") {
-                airResistance = calculateAirResistanceRainy(ballVelocity);
-                netVelocity = ballVelocity - airResistance;
-                time = calculateTimeToPlayer(playerVelocity, netVelocity);
-                horizontalDistance = calculateHorizontalDistance(playerVelocity, time);
-            } else {
-                // Handle other weather conditions
-            }
+            // Perform calculations
+            const airResistance = 0.1 * ballVelocity; // Simplified air resistance model
+            const netVelocity = ballVelocity - airResistance;
+            const time = playerVelocity > 0 ? ballVelocity / (playerVelocity - netVelocity) : Infinity;
+            const horizontalDistance = playerVelocity * time;
 
-            const resultElement = document.getElementById('distance-result');
-            resultElement.textContent = `${horizontalDistance.toFixed(2)}`;
-        });
-
-        function calculateAirResistanceSunny(ballVelocity) {
-            return 0.1 * ballVelocity; // Adjust the formula for sunny weather
+            // Display results
+            resultElement.textContent = `The ball travels a horizontal distance of ${horizontalDistance.toFixed(2)} meters.`;
         }
 
-        function calculateAirResistanceRainy(ballVelocity) {
-            return 0.2 * ballVelocity; // Adjust the formula for rainy weather
-        }
+        // Automatically update results when input changes
+        ballVelocityInput.addEventListener('input', calculateResults);
+        playerVelocityInput.addEventListener('input', calculateResults);
+        weatherSelect.addEventListener('input', calculateResults);
 
-        function calculateTimeToPlayer(playerVelocity, netVelocity) {
-            return playerVelocity > 0 ? ballVelocity / (playerVelocity - netVelocity) : Infinity;
-        }
-
-        function calculateHorizontalDistance(playerVelocity, time) {
-            return playerVelocity * time;
-        }
+        // Initial calculation
+        calculateResults();
     </script>
 </body>
 </html>
+
