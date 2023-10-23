@@ -4,8 +4,6 @@
     <br>
     <br>
     <title>Soccer Motion Calculator</title>
-    <!-- Include JavaScript files -->
-    <script src="Calculation.js"></script>
 </head>
 <body>
     <!-- GitHub Logo Link -->
@@ -29,48 +27,40 @@
             <option value="Rainy">Rainy</option>
         </select><br>
 
-        <!-- Calculate Button -->
-        <button type="button" id="calculate-button">Calculate</button>
+            <!-- Result -->
+<h2>Result</h2>
+<p id="result">Distance traveled by the ball: <span id="distance-result">Calculating...</span> meters</p>
 
-        <!-- Result -->
-        <h2>Result</h2>
-        <p id="result">Results will appear here.</p>
-    </form>
-    
     <script>
-        document.getElementById('calculate-button').addEventListener('click', function() {
-            // Retrieve input data
-        const ballVelocity = parseFloat(document.getElementById('ball-velocity').value);
-        const playerVelocity = parseFloat(document.getElementById('player-velocity').value);
-        const weather = document.getElementById('weather').value;
-
-        // Perform calculations
-        const airResistance = calculateAirResistance(ballVelocity);
-        const netVelocity = ballVelocity - airResistance;
-        const time = calculateTimeToPlayer(playerVelocity, netVelocity);
-        const horizontalDistance = calculateHorizontalDistance(playerVelocity, time);
-
-        // Display results
+        const ballVelocityInput = document.getElementById('ball-velocity');
+        const playerVelocityInput = document.getElementById('player-velocity');
+        const weatherSelect = document.getElementById('weather');
         const resultElement = document.getElementById('result');
-        resultElement.textContent = `The ball travels a horizontal distance of ${horizontalDistance.toFixed(2)} meters.`;
-    });
 
-    // Function to calculate air resistance
-    function calculateAirResistance(ballVelocity) {
-        // Simplified air resistance model
-        // In a complete model, you'd use the drag force equation
-        return 0.1 * ballVelocity;
-    }
+        // Function to calculate and update results
+        function calculateResults() {
+            const ballVelocity = parseFloat(ballVelocityInput.value);
+            const playerVelocity = parseFloat(playerVelocityInput.value);
+            const weather = weatherSelect.value;
 
-    // Function to calculate time to player
-    function calculateTimeToPlayer(playerVelocity, netVelocity) {
-        return playerVelocity > 0 ? ballVelocity / (playerVelocity - netVelocity) : Infinity;
-    }
+            // Perform calculations
+            const airResistance = 0.1 * ballVelocity; // Simplified air resistance model
+            const netVelocity = ballVelocity - airResistance;
+            const time = playerVelocity > 0 ? ballVelocity / (playerVelocity - netVelocity) : Infinity;
+            const horizontalDistance = playerVelocity * time;
 
-    // Function to calculate horizontal distance
-    function calculateHorizontalDistance(playerVelocity, time) {
-        return playerVelocity * time;
-    }
-</script>  
+            // Display results
+            resultElement.textContent = `The ball travels a horizontal distance of ${horizontalDistance.toFixed(2)} meters.`;
+        }
+
+        // Automatically update results when input changes
+        ballVelocityInput.addEventListener('input', calculateResults);
+        playerVelocityInput.addEventListener('input', calculateResults);
+        weatherSelect.addEventListener('input', calculateResults);
+
+        // Initial calculation
+        calculateResults();
+    </script>
 </body>
 </html>
+
